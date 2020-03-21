@@ -1,7 +1,7 @@
-FROM golang:1.11.5-alpine3.9
+FROM golang:1.14.1-alpine3.11
 
 # Copy from _/node
-ENV NODE_VERSION 11.10.0
+ENV NODE_VERSION 12.16.1
 
 RUN addgroup -g 1000 node \
     && adduser -u 1000 -G node -s /bin/sh -D node \
@@ -49,7 +49,7 @@ RUN addgroup -g 1000 node \
     && rm -Rf "node-v$NODE_VERSION" \
     && rm "node-v$NODE_VERSION.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
 
-ENV YARN_VERSION 1.13.0
+ENV YARN_VERSION 1.22.4
 
 RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
   && for key in \
