@@ -2,32 +2,30 @@ name: Go Node Docker Img Tag Push
 on:
   push:
     tags:
-    - '*'
+      - "*"
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set release tag name
-      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-    
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag imyousuf/go-node-docker-img:${{ env.RELEASE_VERSION }}
-    
-    - uses: docker/login-action@v1
-    - name: Login to DockerHub
-      with:
+      - uses: actions/checkout@v2
+      - name: Set release tag name
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag imyousuf/go-node-docker-img:${{ env.RELEASE_VERSION }}
+
+      - uses: docker/login-action@v1
+      - name: Login to DockerHub
+        with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-    
-    - uses: docker/build-push-action@v2
-    - name: Build and push
-      id: docker_build
-      with:
+
+      - uses: docker/build-push-action@v2
+      - name: Build and push
+        id: docker_build
+        with:
           push: true
           tags: imyousuf/go-node-docker-img:${{ env.RELEASE_VERSION }}
